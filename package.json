@@ -1,0 +1,58 @@
+{
+  "name": "dimensionador-piscina",
+  "productName": "Dimensionador de Bomba de Calor",
+  "version": "1.0.0",
+  "description": "Dimensionamento de bomba de calor para piscina com geração de PDF para o cliente. Uso local, sem internet.",
+  "main": "src/main.js",
+  "author": "GN Representações",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "test": "node test/run.js",
+    "dist": "electron-builder --win nsis",
+    "dist:dir": "electron-builder --win dir"
+  },
+  "devDependencies": {
+    "electron": "33.2.1",
+    "electron-builder": "25.1.8"
+  },
+  "build": {
+    "appId": "br.com.gnrepresentacoes.dimensionador",
+    "productName": "Dimensionador de Bomba de Calor",
+    "artifactName": "Dimensionador-Setup-${version}.${ext}",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Dimensionador de Bomba de Calor",
+      "language": "1046",
+      "deleteAppDataOnUninstall": false
+    }
+  },
+  "allowScripts": {
+    "electron@33.2.1": true
+  }
+}
