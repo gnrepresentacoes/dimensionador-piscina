@@ -107,7 +107,7 @@
   $('btnPdf').addEventListener('click', function () {
     var cl = cliente();
     var nome = 'Dimensionamento - ' + (cl.nome || 'cliente').replace(/[\/:*?"<>|]/g, '').trim() + ' - ' + new Date().toISOString().slice(0, 10) + '.pdf';
-    if (!(window.dim && window.dim.gerarPdf)) { window.print(); return; }
+    if (!(window.dim && window.dim.gerarPdf)) { var t = document.title; document.title = nome.replace(/.pdf$/, ''); window.print(); document.title = t; return; }
     $('status').textContent = 'Gerando PDF…';
     window.dim.gerarPdf({ nome: nome, html: $('page').innerHTML, formulario: { f: ler(), cliente: cl } }).then(function (r) {
       if (r && r.ok) {
@@ -143,6 +143,7 @@
     });
   }
   carregarConfig();
+  if (!window.dim) { $('pasta').hidden = true; $('btnPasta').hidden = true; $('btnPdf').textContent = 'Salvar PDF'; document.querySelector('.preview-bar span').textContent = 'Prévia do PDF · A4 · 1 página · no Mac, escolha "Salvar como PDF" na janela de impressão'; }
 
   recalcular();
 })();

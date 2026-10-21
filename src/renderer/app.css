@@ -91,3 +91,28 @@ table.doc-tab { width: 100%; border-collapse: collapse; margin-top: 6px; }
 .doc-tab th, .doc-tab td { padding: 4px 6px; border-bottom: 1px solid var(--line); text-align: left; font-size: 10px; }
 .doc-tab th { width: 40%; color: var(--ink-2); font-weight: 500; } .doc-tab td { font-weight: 600; }
 .doc-foot { margin-top: 14px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 9px; color: var(--ink-3); display: flex; justify-content: space-between; gap: 10px; }
+
+/* ----- impressao pelo navegador (versao web) ----- */
+@media print {
+  @page { size: A4; margin: 14mm 14mm 12mm; }
+  html, body { background: #fff !important; overflow: visible !important; display: block !important; height: auto !important; }
+  .top, .form, .preview-bar, .actions { display: none !important; }
+  .layout { display: block !important; }
+  .preview { display: block !important; background: #fff !important; border: 0 !important; }
+  .page { margin: 0 !important; padding: 0 !important; box-shadow: none !important; overflow: visible !important; font-size: 14px; }
+  .doc-head img.gn { height: 60px; } .doc-head img.sy { height: 38px; } .doc-head .t strong { font-size: 18px; } .doc-head .t span { font-size: 12px; }
+  .doc-main .v { font-size: 24px; } .doc-main .b .v { font-size: 20px; } .doc-main .k, .doc-kpi .k, .doc-h, .doc-cost .k { font-size: 11px; } .doc-main .s, .doc-kpi .c { font-size: 12px; }
+  .doc-kpi .v { font-size: 20px; } .doc-kpi .v small { font-size: 12px; } .doc-chart { height: 120px; margin-top: 22px; } .doc-chart div span, .doc-chart div i { font-size: 10px; } .doc-chart div span { top: -16px; } .doc-chart div i { bottom: -17px; }
+  .doc-cost { margin-top: 30px; } .doc-cost .v { font-size: 16px; } .doc-tab th, .doc-tab td { font-size: 12.5px; padding: 7px 8px; } .doc-meta { font-size: 13px; } .doc-foot { font-size: 11px; margin-top: 22px; }
+  .doc-chart div, .doc-main, .doc-kpi { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ----- telas estreitas (navegador em janela pequena ou celular) ----- */
+@media (max-width: 1000px) {
+  body { overflow: auto; height: auto; }
+  .layout { display: block; }
+  .form { overflow: visible; }
+  .preview { border-left: 0; border-top: 1px solid var(--line-2); }
+  .page { overflow: visible; margin: 0 12px; }
+  .actions { flex-wrap: wrap; }
+}
