@@ -89,11 +89,11 @@
     if (hb.bomba) {
       card.classList.remove('warn');
       $('finPump').textContent = hb.bomba.linha + ' ' + hb.bomba.cv + ' CV';
-      $('finPumpSub').textContent = hb.bomba.modelo220 + ' · ' + fmt1(hb.vazaoDisponivel) + ' m³/h a ' + hb.mca + ' mca';
+      $('finPumpSub').textContent = hb.bomba.modelo220 + ' · ' + fmt1(hb.vazaoDisponivel) + ' m³/h a ' + hb.mca + ' mca' + (hb.bomba.filtro ? ' · filtro ' + hb.bomba.filtro : '');
     } else {
       card.classList.add('warn');
       $('finPump').textContent = 'Validar com a engenharia';
-      $('finPumpSub').textContent = fmt1(hb.vazaoNecessaria) + ' m³/h a ' + hb.mca + ' mca excede a linha Alta-Vazão';
+      $('finPumpSub').textContent = fmt1(hb.vazaoNecessaria) + ' m³/h a ' + hb.mca + ' mca excede a linha Pré-Filtro';
     }
     $('finChecks').innerHTML = (s.recomendado ? '<span class="ok">✓ Atende aos critérios da planilha</span>' : '<span class="bad">✗ Fora dos critérios da planilha</span>') +
       '<span>Vazão necessária ' + fmt1(hb.vazaoNecessaria) + ' m³/h</span><span>Custo anual estimado ' + brl(p.custoAno) + '</span>';
@@ -108,11 +108,11 @@
     var b = hid.bomba;
     var h = '<div class="doc-pump' + (b ? '' : ' warn') + '"><div class="k">Motobomba de circulação indicada</div>';
     if (!b) {
-      h += '<div class="v">Acima da linha Alta-Vazão · validar com a engenharia</div><div class="s">Vazão de projeto ' + fmt1(hid.vazaoNecessaria) + ' m³/h a ' + hid.mca + ' mca excede a maior bomba do catálogo nessa altura.</div></div>';
+      h += '<div class="v">Acima da linha Pré-Filtro · validar com a engenharia</div><div class="s">Vazão de projeto ' + fmt1(hid.vazaoNecessaria) + ' m³/h a ' + hid.mca + ' mca excede a maior bomba do catálogo nessa altura.</div></div>';
       return h;
     }
     h += '<div class="v">' + esc(b.linha) + ' ' + esc(b.cv) + ' CV · ' + esc(b.modelo220) + '</div>' +
-      '<div class="s">' + fmt1(hid.vazaoDisponivel) + ' m³/h a ' + hid.mca + ' mca · necessário ' + fmt1(hid.vazaoNecessaria) + ' m³/h · ' + esc(b.fase) + (b.modelo120 ? ' · 120 V: ' + esc(b.modelo120) : '') + ' · pressão máx. ' + fmt1(b.mcaMax) + ' mca</div>';
+      '<div class="s">' + fmt1(hid.vazaoDisponivel) + ' m³/h a ' + hid.mca + ' mca · necessário ' + fmt1(hid.vazaoNecessaria) + ' m³/h · ' + esc(b.fase) + (b.modelo120 ? ' · 120 V: ' + esc(b.modelo120) : '') + ' · pressão máx. ' + fmt1(b.mcaMax) + ' mca' + (b.filtro ? ' · filtro de areia ' + esc(b.filtro) : '') + '</div>';
     if (hid.alternativaTrifasica) {
       var t = hid.alternativaTrifasica.bomba;
       h += '<div class="s">Opção trifásica: ' + esc(t.linha) + ' ' + esc(t.cv) + ' CV · ' + esc(t.modelo220) + ' / ' + esc(t.modelo120) + ' · ' + fmt1(hid.alternativaTrifasica.vazaoDisponivel) + ' m³/h</div>';

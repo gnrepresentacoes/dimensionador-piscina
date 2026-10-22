@@ -43,8 +43,8 @@
     };
   }
 
-  /* Selecao da motobomba de circulacao (catalogo Syllent): a menor que entrega a vazao necessaria na altura informada.
-   * Percorre o catalogo na ordem (Alta-Vazao 1/2 a 2 CV, depois Ultra Flow) e prefere monofasica; devolve tambem a opcao trifasica. */
+  /* Selecao da motobomba (catalogo Syllent Pre-Filtro Autoescorvante): a menor que entrega a vazao necessaria na altura informada.
+   * Percorre o catalogo na ordem (1/4 a 3 CV) e prefere monofasica; devolve a trifasica de mesma potencia quando existir. */
   function motobomba(cfg, vazaoM3h, mca) {
     var alturas = cfg.constantes.alturasManometricas || [4, 6, 8, 10, 12, 14];
     var h = alturas.indexOf(num(mca)) >= 0 ? num(mca) : cfg.constantes.alturaManometricaPadrao;
@@ -62,7 +62,7 @@
     var sel = mono || tri;
     return {
       bomba: sel ? sel.bomba : null, vazaoDisponivel: sel ? sel.vazaoDisponivel : 0,
-      alternativaTrifasica: (mono && tri && /Ultra/.test(mono.bomba.linha)) ? { bomba: tri.bomba, vazaoDisponivel: tri.vazaoDisponivel } : null,
+      alternativaTrifasica: (mono && tri && tri.bomba.cv === mono.bomba.cv) ? { bomba: tri.bomba, vazaoDisponivel: tri.vazaoDisponivel } : null,
       mca: h, vazaoNecessaria: v, atende: !!sel,
     };
   }
