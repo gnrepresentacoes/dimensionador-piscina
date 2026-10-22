@@ -31,6 +31,7 @@ jobs:
           cp src/renderer/index.html src/renderer/app.css src/renderer/app.js src/renderer/calc.js src/renderer/config.js site/
           cp assets/logo-gn.png assets/logo-syllent.png site/assets/
           sed -i 's#\.\./\.\./assets/#assets/#g' site/index.html site/app.js
+          sed -i "s#?v=dev#?v=${GITHUB_SHA::8}#g" site/index.html
           sed -i 's#<meta charset="UTF-8" />#<meta charset="UTF-8" />\n  <meta name="robots" content="noindex" />#' site/index.html
           ls -R site
       - uses: actions/configure-pages@v5
