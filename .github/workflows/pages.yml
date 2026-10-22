@@ -1,0 +1,47 @@
+# Publica a tela do Dimensionador (src/renderer) como site estático no GitHub Pages.
+# A versão web é montada aqui a partir dos mesmos arquivos do programa de desktop:
+# copia src/renderer e assets para uma pasta "site" e ajusta o caminho das logos.
+name: Dimensionador na web (GitHub Pages)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/renderer/**'
+      - 'assets/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Montar a versão web a partir do renderer
+        run: |
+          mkdir -p site/assets
+          cp src/renderer/index.html src/renderer/app.css src/renderer/app.js src/renderer/calc.js src/renderer/config.js site/
+          cp assets/logo-gn.png assets/logo-syllent.png site/assets/
+          sed -i 's#\.\./\.\./assets/#assets/#g' site/index.html site/app.js
+          sed -i 's#<meta charset="UTF-8" />#<meta charset="UTF-8" />\n  <meta name="robots" content="noindex" />#' site/index.html
+          ls -R site
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4
