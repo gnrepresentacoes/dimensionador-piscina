@@ -55,7 +55,7 @@
     var maxKwh = Math.max.apply(null, p.meses.map(function (m) { return m.kwh; }));
     var hid = s.hidraulica;
     var h = '';
-    h += '<div class="doc-head"><img class="gn" src="../../assets/logo-gn.png" style="filter:none;background:' + '#1f3a7a' + ';border-radius:8px;padding:4px 10px" alt="GN" />' +
+    h += '<div class="doc-head">' +
       '<div class="t"><strong>Dimensionamento de bomba de calor</strong><span>Indicação preliminar para piscina · ' + esc(CFG.marca.nome) + '</span></div>' +
       '<img class="sy" src="../../assets/logo-syllent.png" alt="Syllent" /></div>';
     h += '<div class="doc-meta"><span>Cliente: <b>' + esc(cl.nome || '—') + '</b></span><span>Data: <b>' + new Date().toLocaleDateString('pt-BR') + '</b></span>' +
@@ -286,7 +286,7 @@
 
   function desenharDocumento(f, r, cl) {
     var h = '';
-    h += '<div class="doc-head"><img class="gn" src="../../assets/logo-gn.png" style="background:#1f3a7a;border-radius:8px;padding:4px 10px" alt="GN" />' +
+    h += '<div class="doc-head">' +
       '<div class="t"><strong>Dimensionamento de gerador de cloro</strong><span>Indicação preliminar para piscina · ' + esc(CFG.marca.nome) + '</span></div>' +
       '<img class="sy" src="../../assets/logo-syllent.png" alt="Syllent" /></div>';
     h += '<div class="doc-meta"><span>Cliente: <b>' + esc(cl.nome || '—') + '</b></span><span>Data: <b>' + new Date().toLocaleDateString('pt-BR') + '</b></span>' +
