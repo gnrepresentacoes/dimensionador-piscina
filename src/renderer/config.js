@@ -33,6 +33,7 @@ window.DIM_CONFIG = {
   "limiteHorasDia": 8,
   "limitePrimeiroAquecH": 48,
   "alturaManometricaPadrao": 8,
+  "alturasManometricas": [4, 6, 8, 10, 12, 14],
   "horasRecirculacaoPadrao": 8
  },
  "modelos": [
@@ -118,79 +119,24 @@ window.DIM_CONFIG = {
   }
  ],
  "motobombas": [
-  {
-   "cv": "1/4",
-   "vazao": {
-    "6": 7.5,
-    "8": 4,
-    "10": 0,
-    "12": 0
-   }
-  },
-  {
-   "cv": "1/3",
-   "vazao": {
-    "6": 8.4,
-    "8": 5.3,
-    "10": 0,
-    "12": 0
-   }
-  },
-  {
-   "cv": "1/2",
-   "vazao": {
-    "6": 11.1,
-    "8": 8.4,
-    "10": 4.5,
-    "12": 0
-   }
-  },
-  {
-   "cv": "3/4",
-   "vazao": {
-    "6": 16,
-    "8": 13.2,
-    "10": 10.1,
-    "12": 6.4
-   }
-  },
-  {
-   "cv": "1,0",
-   "vazao": {
-    "6": 17.5,
-    "8": 14.9,
-    "10": 11.7,
-    "12": 8.3
-   }
-  },
-  {
-   "cv": "1,5",
-   "vazao": {
-    "6": 19,
-    "8": 17.1,
-    "10": 14.3,
-    "12": 11.6
-   }
-  },
-  {
-   "cv": "2,0",
-   "vazao": {
-    "6": 32.8,
-    "8": 28.4,
-    "10": 24.7,
-    "12": 20.8
-   }
-  },
-  {
-   "cv": "3,0",
-   "vazao": {
-    "6": 41,
-    "8": 37.9,
-    "10": 34.4,
-    "12": 30.7
-   }
-  }
+  { "id": "av-05", "linha": "Alta-Vazão", "cv": "1/2", "modelo220": "MB42E0413AS", "modelo120": "MB42E0410AS", "fase": "monofásica", "mcaMax": 11.1, "kg": 5.8,
+   "vazao": { "2": 20.3, "4": 16.6, "6": 13.1, "8": 9.6, "10": 5.3, "12": 0 } },
+  { "id": "av-10", "linha": "Alta-Vazão", "cv": "1,0", "modelo220": "MB42E0414AS", "modelo120": "MB42E0411AS", "fase": "monofásica", "mcaMax": 13.5, "kg": 7.5,
+   "vazao": { "2": 25.4, "4": 22.9, "6": 20.0, "8": 16.4, "10": 11.8, "12": 6.6, "14": 0 } },
+  { "id": "av-15", "linha": "Alta-Vazão", "cv": "1,5", "modelo220": "MB42E0415AS", "modelo120": "MB42E0412AS", "fase": "monofásica", "mcaMax": 14.6, "kg": 8.1,
+   "vazao": { "2": 26.2, "4": 24.0, "6": 21.2, "8": 17.9, "10": 14.0, "12": 9.2, "14": 3.4, "16": 0 } },
+  { "id": "av-20", "linha": "Alta-Vazão", "cv": "2,0", "modelo220": "MB42E0416AS", "modelo120": "MB42E0417AS", "fase": "monofásica", "mcaMax": 17.1, "kg": 8.45,
+   "vazao": { "2": 27.4, "4": 26.3, "6": 23.5, "8": 20.4, "10": 17.1, "12": 13.2, "14": 8.8, "16": 3.6, "18": 0 } },
+  { "id": "uf-20", "linha": "Alta-Vazão Ultra Flow", "cv": "2,0", "modelo220": "HI48M200-220/AS", "modelo120": "", "fase": "monofásica", "mcaMax": 19.0, "kg": 14.5,
+   "vazao": { "4": 43.4, "6": 40.3, "8": 35.5, "10": 30.6, "12": 25.0, "14": 18.0, "16": 9.8, "18": 2.4, "20": 0 } },
+  { "id": "uf-30", "linha": "Alta-Vazão Ultra Flow", "cv": "3,0", "modelo220": "HI48M300-220/AS", "modelo120": "", "fase": "monofásica", "mcaMax": 21.6, "kg": 14.5,
+   "vazao": { "4": 49.0, "6": 46.1, "8": 40.7, "10": 37.2, "12": 34.1, "14": 29.2, "16": 24.3, "18": 19.5, "20": 10.4, "22": 0 } },
+  { "id": "uf-20t", "linha": "Alta-Vazão Ultra Flow", "cv": "2,0", "modelo220": "HI48T200-220/AST", "modelo120": "HI48T200-380/AST (380 V)", "fase": "trifásica", "mcaMax": 19.0, "kg": 14.5,
+   "vazao": { "4": 36.5, "6": 32.8, "8": 28.4, "10": 24.7, "12": 20.8, "14": 14.9, "16": 8.7, "18": 2.4, "20": 0 } },
+  { "id": "uf-30t", "linha": "Alta-Vazão Ultra Flow", "cv": "3,0", "modelo220": "HI48T300-220/AST", "modelo120": "HI48T300-380/AST (380 V)", "fase": "trifásica", "mcaMax": 21.6, "kg": 14.5,
+   "vazao": { "4": 44.1, "6": 41.0, "8": 37.8, "10": 34.4, "12": 30.7, "14": 26.8, "16": 22.2, "18": 17.3, "20": 10.2, "22": 0 } }
  ],
+ "motobombasFonte": "Syllent · folder Linha Alta-Vazão para Hidromassagem de Piscina, abril/2025 (vazão em m³/h por altura manométrica total, 60 Hz)",
  "clima": {
   "AC": {
    "ref": "Rio Branco",

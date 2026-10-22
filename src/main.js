@@ -49,6 +49,7 @@ function montarHtmlImpressao(htmlDoc) {
     .doc-head img.gn { height: 60px; } .doc-head img.sy { height: 38px; } .doc-head .t strong { font-size: 18px; } .doc-head .t span { font-size: 12px; }
     .doc-main .v { font-size: 24px; } .doc-main .b .v { font-size: 20px; } .doc-main .k, .doc-kpi .k, .doc-h, .doc-cost .k { font-size: 11px; } .doc-main .s, .doc-kpi .c { font-size: 12px; }
     .doc-kpi .v { font-size: 20px; } .doc-kpi .v small { font-size: 12px; } .doc-chart { height: 120px; margin-top: 22px; } .doc-chart div span, .doc-chart div i { font-size: 10px; } .doc-chart div span { top: -16px; } .doc-chart div i { bottom: -17px; }
+    .doc-pump .v { font-size: 16px; } .doc-pump .k { font-size: 11px; } .doc-pump .s { font-size: 12px; }
     .doc-cost { margin-top: 30px; } .doc-cost .v { font-size: 16px; } .doc-tab th, .doc-tab td { font-size: 12.5px; padding: 7px 8px; } .doc-meta { font-size: 13px; } .doc-foot { font-size: 11px; margin-top: 22px; }
     .doc-chart div, .doc-main, .doc-kpi, .opt { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   </style></head><body><div class="page">${corpo}</div></body></html>`;

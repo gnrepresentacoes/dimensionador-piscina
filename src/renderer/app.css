@@ -79,6 +79,13 @@ summary { cursor: pointer; font-weight: 600; font-size: 12px; color: var(--navy)
 .doc-kpi .v { font-size: 14px; font-weight: 700; margin-top: 2px; } .doc-kpi .v small { font-size: 10px; color: var(--ink-3); font-weight: 600; }
 .doc-kpi .c { font-size: 9px; color: var(--ink-3); }
 .doc-kpi.ok .v { color: var(--ok); } .doc-kpi.warn .v { color: var(--warn); }
+.doc-pump { margin-top: 10px; padding: 10px 12px; border: 1px solid var(--line); border-left: 4px solid var(--sky); border-radius: 8px; background: #f7fbfe; }
+.doc-pump.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.doc-pump .k { font-size: 9px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .08em; font-weight: 700; }
+.doc-pump .v { font-size: 13px; font-weight: 700; margin-top: 2px; }
+.doc-pump .s { font-size: 10px; color: var(--ink-2); margin-top: 2px; }
+.pump { margin-top: 10px; padding: 10px 12px; border-left: 3px solid var(--sky); background: var(--sky-soft); border-radius: 0 8px 8px 0; font-size: 12px; }
+.pump small { color: var(--ink-2); }
 .doc-h { margin-top: 14px; font-size: 9px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
 .doc-chart { display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px; align-items: end; height: 70px; margin-top: 16px; }
 .doc-chart div { position: relative; background: var(--sky); border-radius: 3px 3px 0 0; }
@@ -103,6 +110,7 @@ table.doc-tab { width: 100%; border-collapse: collapse; margin-top: 6px; }
   .doc-head img.gn { height: 60px; } .doc-head img.sy { height: 38px; } .doc-head .t strong { font-size: 18px; } .doc-head .t span { font-size: 12px; }
   .doc-main .v { font-size: 24px; } .doc-main .b .v { font-size: 20px; } .doc-main .k, .doc-kpi .k, .doc-h, .doc-cost .k { font-size: 11px; } .doc-main .s, .doc-kpi .c { font-size: 12px; }
   .doc-kpi .v { font-size: 20px; } .doc-kpi .v small { font-size: 12px; } .doc-chart { height: 120px; margin-top: 22px; } .doc-chart div span, .doc-chart div i { font-size: 10px; } .doc-chart div span { top: -16px; } .doc-chart div i { bottom: -17px; }
+  .doc-pump .v { font-size: 16px; } .doc-pump .k { font-size: 11px; } .doc-pump .s { font-size: 12px; }
   .doc-cost { margin-top: 30px; } .doc-cost .v { font-size: 16px; } .doc-tab th, .doc-tab td { font-size: 12.5px; padding: 7px 8px; } .doc-meta { font-size: 13px; } .doc-foot { font-size: 11px; margin-top: 22px; }
   .doc-chart div, .doc-main, .doc-kpi { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }

@@ -45,6 +45,10 @@
     }).join('');
     document.querySelectorAll('.opt').forEach(function (b) { b.addEventListener('click', function () { escolhaIdx = Number(b.dataset.i); recalcular(); }); });
     desenharDocumento(f, opcoes[escolhaIdx]);
+    var hb = opcoes[escolhaIdx].hidraulica;
+    $('bombaResumo').innerHTML = hb.bomba
+      ? '<strong>Motobomba de circulação:</strong> ' + esc(hb.bomba.linha) + ' ' + esc(hb.bomba.cv) + ' CV · ' + esc(hb.bomba.modelo220) + ' <small>(' + fmt1(hb.vazaoDisponivel) + ' m³/h a ' + hb.mca + ' mca · necessário ' + fmt1(hb.vazaoNecessaria) + ' m³/h)</small>'
+      : '<strong>Motobomba de circulação:</strong> acima da linha Alta-Vazão para ' + fmt1(hb.vazaoNecessaria) + ' m³/h a ' + hb.mca + ' mca.';
     $('status').textContent = 'Atualizado ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
   }
 
@@ -64,6 +68,7 @@
       kpi('Carga térmica', fmtInt(c.kcal), 'kcal', fmtInt(c.btu) + ' BTU') +
       kpi('Aquecimento diário', fmt1(s.horasDia), 'h/dia', 'critério: abaixo de ' + CFG.constantes.limiteHorasDia + ' h', s.horasDia < CFG.constantes.limiteHorasDia ? 'ok' : 'warn') +
       kpi('Primeiro aquecimento', fmt1(s.horasPrimeiroAquecimento), 'h', 'critério: abaixo de ' + CFG.constantes.limitePrimeiroAquecH + ' h', s.horasPrimeiroAquecimento < CFG.constantes.limitePrimeiroAquecH ? 'ok' : 'warn') + '</div>';
+    h += blocoBomba(hid);
     h += '<div class="doc-h">Custo de energia estimado · ' + esc(p.referencia) + ' · tarifa R$ ' + Number(f.tarifa).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) + '/kWh</div><div class="doc-chart">';
     p.meses.forEach(function (m) { h += '<div class="' + (m === p.mesPico ? 'peak' : '') + '" style="height:' + Math.max(4, m.kwh / maxKwh * 100) + '%"><span>' + brl(m.custo) + '</span><i>' + m.mes.slice(0, 3) + '</i></div>'; });
     h += '</div><div class="doc-cost"><div><div class="k">Custo anual</div><div class="v">' + brl(p.custoAno) + '</div></div><div><div class="k">Primeiro aquecimento</div><div class="v">' + brl(p.custoPrimeiroAquecimento) + '</div></div>' +
@@ -73,10 +78,26 @@
       tr('Temperaturas', f.tempInicial + ' °C → ' + f.tempDesejada + ' °C (Δ ' + fmt1(c.deltaC) + ' °C)') +
       tr('Condição', rot.capa[f.capa] + ' · ' + rot.tipo[f.tipo] + ' · vento ' + rot.vento[f.vento] + ' (fatores ' + c.fatores.capa + ' × ' + c.fatores.tipo + ' × ' + c.fatores.vento + ')') +
       tr('Acessórios', acess(f) + (c.acessoriosKcal ? ' · +' + fmtInt(c.acessoriosKcal) + ' kcal' : '')) +
-      tr('Hidráulica', 'vazão de projeto ' + fmt1(hid.vazaoNecessaria) + ' m³/h · motobomba ' + (hid.bomba ? hid.bomba.cv + ' cv (' + hid.mca + ' mca)' : 'acima da tabela')) +
+      tr('Hidráulica', 'vazão de projeto ' + fmt1(hid.vazaoNecessaria) + ' m³/h (bomba de calor ' + fmt1(hid.vazaoBombaCalor) + ' · renovação ' + fmt1(hid.vazaoRenovacao) + ' em ' + hid.horasRecirculacao + ' h) · altura manométrica ' + hid.mca + ' mca') +
       '</table>';
     h += '<div class="doc-foot"><span>' + esc(CFG.marca.nome) + ' · representante ' + esc(CFG.marca.fabricante) + '</span><span>Resultado preliminar, sem valor de projeto executivo ou garantia de desempenho.</span></div>';
     $('page').innerHTML = h;
+  }
+  function blocoBomba(hid) {
+    var b = hid.bomba;
+    var h = '<div class="doc-pump' + (b ? '' : ' warn') + '"><div class="k">Motobomba de circulação indicada</div>';
+    if (!b) {
+      h += '<div class="v">Acima da linha Alta-Vazão · validar com a engenharia</div><div class="s">Vazão de projeto ' + fmt1(hid.vazaoNecessaria) + ' m³/h a ' + hid.mca + ' mca excede a maior bomba do catálogo nessa altura.</div></div>';
+      return h;
+    }
+    h += '<div class="v">' + esc(b.linha) + ' ' + esc(b.cv) + ' CV · ' + esc(b.modelo220) + '</div>' +
+      '<div class="s">' + fmt1(hid.vazaoDisponivel) + ' m³/h a ' + hid.mca + ' mca · necessário ' + fmt1(hid.vazaoNecessaria) + ' m³/h · ' + esc(b.fase) + (b.modelo120 ? ' · 120 V: ' + esc(b.modelo120) : '') + ' · pressão máx. ' + fmt1(b.mcaMax) + ' mca</div>';
+    if (hid.alternativaTrifasica) {
+      var t = hid.alternativaTrifasica.bomba;
+      h += '<div class="s">Opção trifásica: ' + esc(t.linha) + ' ' + esc(t.cv) + ' CV · ' + esc(t.modelo220) + ' / ' + esc(t.modelo120) + ' · ' + fmt1(hid.alternativaTrifasica.vazaoDisponivel) + ' m³/h</div>';
+    }
+    h += '</div>';
+    return h;
   }
   function kpi(k, v, u, c, cls) { return '<div class="doc-kpi ' + (cls || '') + '"><div class="k">' + k + '</div><div class="v">' + v + ' <small>' + u + '</small></div><div class="c">' + c + '</div></div>'; }
   function tr(k, v) { return '<tr><th>' + k + '</th><td>' + v + '</td></tr>'; }

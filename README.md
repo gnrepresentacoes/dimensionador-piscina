@@ -22,7 +22,9 @@ Tudo fica em `src/renderer/config.js` e pode ser editado sem mexer no restante:
 - `constantes`: conversões e critérios de aceite (menos de 8 h/dia e menos de 48 h no primeiro
   aquecimento), máximo de 13 máquinas.
 - `modelos`: catálogo com BTU, kW elétrico e vazão. Troque aqui para outros produtos.
-- `motobombas`: vazão por altura manométrica.
+- `motobombas`: catálogo Syllent Alta-Vazão e Ultra Flow (folder abril/2025), com vazão em m³/h por
+  altura manométrica. A bomba indicada é a menor monofásica que entrega a vazão de projeto na altura
+  escolhida; na faixa Ultra Flow mostra também a opção trifásica.
 - `clima`: temperatura média mensal do ar por UF (capital), usada na projeção de custo anual.
 
 Fórmula: `kcal = ΔT × litros × fator capa × fator tipo × fator vento + acessórios`. A seleção

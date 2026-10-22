@@ -43,16 +43,28 @@
     };
   }
 
-  /* Pre-selecao de motobomba pela vazao necessaria e altura manometrica. */
+  /* Selecao da motobomba de circulacao (catalogo Syllent): a menor que entrega a vazao necessaria na altura informada.
+   * Percorre o catalogo na ordem (Alta-Vazao 1/2 a 2 CV, depois Ultra Flow) e prefere monofasica; devolve tambem a opcao trifasica. */
   function motobomba(cfg, vazaoM3h, mca) {
-    var alturas = [6, 8, 10, 12];
+    var alturas = cfg.constantes.alturasManometricas || [4, 6, 8, 10, 12, 14];
     var h = alturas.indexOf(num(mca)) >= 0 ? num(mca) : cfg.constantes.alturaManometricaPadrao;
     var v = Math.max(0, num(vazaoM3h));
-    var bomba = null;
-    for (var i = 0; i < cfg.motobombas.length; i++) {
-      if (cfg.motobombas[i].vazao[h] >= v) { bomba = cfg.motobombas[i]; break; }
+    function acha(fase) {
+      for (var i = 0; i < cfg.motobombas.length; i++) {
+        var b = cfg.motobombas[i];
+        if (fase && b.fase !== fase) continue;
+        var q = b.vazao[String(h)];
+        if (typeof q === 'number' && q >= v && q > 0) return { bomba: b, vazaoDisponivel: q };
+      }
+      return null;
     }
-    return { bomba: bomba, mca: h, vazaoNecessaria: v, vazaoDisponivel: bomba ? bomba.vazao[h] : 0, atende: !!bomba };
+    var mono = acha('monofásica'), tri = acha('trifásica');
+    var sel = mono || tri;
+    return {
+      bomba: sel ? sel.bomba : null, vazaoDisponivel: sel ? sel.vazaoDisponivel : 0,
+      alternativaTrifasica: (mono && tri && /Ultra/.test(mono.bomba.linha)) ? { bomba: tri.bomba, vazaoDisponivel: tri.vazaoDisponivel } : null,
+      mca: h, vazaoNecessaria: v, atende: !!sel,
+    };
   }
 
   /* Avalia um modelo com N maquinas. */
