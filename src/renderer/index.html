@@ -86,7 +86,20 @@
         <h2><span>4</span>Equipamento</h2>
         <div id="opcoes" class="opts"></div>
         <p class="hint">A primeira opção é a seleção automática. Clique em outra linha para usar no PDF.</p>
-        <p class="pump" id="bombaResumo"></p>
+      </div>
+
+      <div class="block final">
+        <h2><span>5</span>Indicação final</h2>
+        <div class="cards">
+          <div class="card equip"><div class="k">Equipamento indicado</div><div class="v" id="finEquip">—</div><div class="s" id="finEquipSub"></div></div>
+          <div class="card pump" id="finPumpCard"><div class="k">Bomba indicada</div><div class="v" id="finPump">—</div><div class="s" id="finPumpSub"></div></div>
+        </div>
+        <div class="checks" id="finChecks"></div>
+        <div class="row-actions">
+          <button type="button" class="btn primary" id="btnPdf2">Gerar PDF</button>
+          <button type="button" class="btn" id="btnCopiar">Copiar resumo</button>
+          <span class="hint" id="copiado"></span>
+        </div>
       </div>
     </section>
 

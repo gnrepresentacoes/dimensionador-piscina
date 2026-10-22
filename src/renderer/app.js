@@ -45,10 +45,7 @@
     }).join('');
     document.querySelectorAll('.opt').forEach(function (b) { b.addEventListener('click', function () { escolhaIdx = Number(b.dataset.i); recalcular(); }); });
     desenharDocumento(f, opcoes[escolhaIdx]);
-    var hb = opcoes[escolhaIdx].hidraulica;
-    $('bombaResumo').innerHTML = hb.bomba
-      ? '<strong>Motobomba de circulação:</strong> ' + esc(hb.bomba.linha) + ' ' + esc(hb.bomba.cv) + ' CV · ' + esc(hb.bomba.modelo220) + ' <small>(' + fmt1(hb.vazaoDisponivel) + ' m³/h a ' + hb.mca + ' mca · necessário ' + fmt1(hb.vazaoNecessaria) + ' m³/h)</small>'
-      : '<strong>Motobomba de circulação:</strong> acima da linha Alta-Vazão para ' + fmt1(hb.vazaoNecessaria) + ' m³/h a ' + hb.mca + ' mca.';
+    preencherFinal(f, opcoes[escolhaIdx]);
     $('status').textContent = 'Atualizado ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
   }
 
@@ -82,6 +79,30 @@
       '</table>';
     h += '<div class="doc-foot"><span>' + esc(CFG.marca.nome) + ' · representante ' + esc(CFG.marca.fabricante) + '</span><span>Resultado preliminar, sem valor de projeto executivo ou garantia de desempenho.</span></div>';
     $('page').innerHTML = h;
+  }
+  var resumoTexto = '';
+  function preencherFinal(f, s) {
+    var hb = s.hidraulica, c = s.carga, cl = cliente(), p = C.projecaoAnual(CFG, f, s, cl.uf);
+    $('finEquip').textContent = s.quantidade + ' × ' + s.modelo.nome;
+    $('finEquipSub').textContent = 'Linha ' + s.modelo.linha + ' · ' + fmtInt(s.totalBtu) + ' BTU/h · ' + fmt1(s.kwMax) + ' kW';
+    var card = $('finPumpCard');
+    if (hb.bomba) {
+      card.classList.remove('warn');
+      $('finPump').textContent = hb.bomba.linha + ' ' + hb.bomba.cv + ' CV';
+      $('finPumpSub').textContent = hb.bomba.modelo220 + ' · ' + fmt1(hb.vazaoDisponivel) + ' m³/h a ' + hb.mca + ' mca';
+    } else {
+      card.classList.add('warn');
+      $('finPump').textContent = 'Validar com a engenharia';
+      $('finPumpSub').textContent = fmt1(hb.vazaoNecessaria) + ' m³/h a ' + hb.mca + ' mca excede a linha Alta-Vazão';
+    }
+    $('finChecks').innerHTML = (s.recomendado ? '<span class="ok">✓ Atende aos critérios da planilha</span>' : '<span class="bad">✗ Fora dos critérios da planilha</span>') +
+      '<span>Vazão necessária ' + fmt1(hb.vazaoNecessaria) + ' m³/h</span><span>Custo anual estimado ' + brl(p.custoAno) + '</span>';
+    resumoTexto = ['Dimensionamento de bomba de calor · ' + CFG.marca.nome,
+      cl.nome ? 'Cliente: ' + cl.nome + (cl.cidade ? ' · ' + cl.cidade : '') + '/' + cl.uf : null,
+      'Piscina: ' + fmtInt(c.volumeLitros) + ' L · ' + f.tempInicial + ' → ' + f.tempDesejada + ' °C',
+      'Equipamento: ' + s.quantidade + ' × ' + s.modelo.nome + ' (' + fmtInt(s.totalBtu) + ' BTU/h · ' + fmt1(s.horasDia) + ' h/dia)',
+      'Bomba: ' + (hb.bomba ? hb.bomba.linha + ' ' + hb.bomba.cv + ' CV · ' + hb.bomba.modelo220 + ' (' + fmt1(hb.vazaoDisponivel) + ' m³/h a ' + hb.mca + ' mca)' : 'validar com a engenharia'),
+      'Custo anual estimado: ' + brl(p.custoAno) + ' (tarifa R$ ' + f.tarifa + '/kWh)'].filter(Boolean).join(String.fromCharCode(10));
   }
   function blocoBomba(hid) {
     var b = hid.bomba;
@@ -138,6 +159,12 @@
       } else { $('status').textContent = r && r.cancelado ? 'Salvamento cancelado' : 'Falha ao gerar PDF'; }
     });
   });
+  $('btnPdf2').addEventListener('click', function () { $('btnPdf').click(); });
+  $('btnCopiar').addEventListener('click', function () {
+    var ok = function () { $('copiado').textContent = 'Resumo copiado'; setTimeout(function () { $('copiado').textContent = ''; }, 2500); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(resumoTexto).then(ok, function () { $('copiado').textContent = 'Não foi possível copiar'; });
+    else { var t = document.createElement('textarea'); t.value = resumoTexto; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); ok(); } catch (e) {} document.body.removeChild(t); }
+  });
   $('btnPasta').addEventListener('click', function () { if (window.dim && window.dim.abrirPasta) window.dim.abrirPasta(); });
   $('btnAbrirPdf').addEventListener('click', function () { if (ultimoPdf && window.dim) window.dim.abrirPdf(ultimoPdf); });
   $('pasta').addEventListener('click', function () { if (window.dim && window.dim.escolherPasta) window.dim.escolherPasta().then(function (p) { $('pasta').textContent = p; }); });
@@ -164,7 +191,7 @@
     });
   }
   carregarConfig();
-  if (!window.dim) { $('pasta').hidden = true; $('btnPasta').hidden = true; $('btnPdf').textContent = 'Salvar PDF'; document.querySelector('.preview-bar span').textContent = 'Prévia do PDF · A4 · 1 página · no Mac, escolha "Salvar como PDF" na janela de impressão'; }
+  if (!window.dim) { $('pasta').hidden = true; $('btnPasta').hidden = true; $('btnPdf').textContent = 'Salvar PDF'; $('btnPdf2').textContent = 'Salvar PDF'; document.querySelector('.preview-bar span').textContent = 'Prévia do PDF · A4 · 1 página · no Mac, escolha "Salvar como PDF" na janela de impressão'; }
 
   recalcular();
 })();

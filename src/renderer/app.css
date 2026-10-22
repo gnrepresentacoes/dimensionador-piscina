@@ -84,8 +84,19 @@ summary { cursor: pointer; font-weight: 600; font-size: 12px; color: var(--navy)
 .doc-pump .k { font-size: 9px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .08em; font-weight: 700; }
 .doc-pump .v { font-size: 13px; font-weight: 700; margin-top: 2px; }
 .doc-pump .s { font-size: 10px; color: var(--ink-2); margin-top: 2px; }
-.pump { margin-top: 10px; padding: 10px 12px; border-left: 3px solid var(--sky); background: var(--sky-soft); border-radius: 0 8px 8px 0; font-size: 12px; }
-.pump small { color: var(--ink-2); }
+.block.final { border: 2px solid var(--sky); }
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 760px) { .cards { grid-template-columns: 1fr; } }
+.card { border-radius: 10px; padding: 12px 14px; color: #fff; min-height: 86px; }
+.card.equip { background: var(--navy); }
+.card.pump { background: var(--sky); }
+.card.pump.warn { background: var(--warn); }
+.card .k { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; opacity: .8; font-weight: 700; }
+.card .v { font-size: 18px; font-weight: 700; margin-top: 4px; line-height: 1.2; }
+.card .s { font-size: 12px; opacity: .9; margin-top: 3px; }
+.checks { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; font-size: 12px; color: var(--ink-2); }
+.checks .ok { color: var(--ok); font-weight: 600; } .checks .bad { color: var(--warn); font-weight: 600; }
+.row-actions { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
 .doc-h { margin-top: 14px; font-size: 9px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
 .doc-chart { display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px; align-items: end; height: 70px; margin-top: 16px; }
 .doc-chart div { position: relative; background: var(--sky); border-radius: 3px 3px 0 0; }
