@@ -144,6 +144,30 @@ window.DIM_CONFIG = {
   { "id": "pf-300t", "linha": "Pré-Filtro Autoescorvante", "cv": "3,0", "modelo220": "PF48T300-220/AST", "modelo120": "PF48T300-380/AST (380 V)", "fase": "trifásica", "mcaMax": 21.6, "kg": 15.8, "filtro": "SYL 1000",
    "vazao": { "4": 44.1, "6": 41.0, "8": 37.8, "10": 34.4, "12": 30.7, "14": 26.8, "16": 22.2, "18": 17.3, "20": 10.2, "22": 0 } }
  ],
+ "cloro": {
+  "linha": "EcoChlor",
+  "concentracaoBase": 2.6,
+  "horasFiltracaoPadrao": 6,
+  "fatores": { "aquecida": 0.3, "aberta": 0.3, "uso": { "familiar": 0, "condominio": 0.3, "academia": 0.5, "clube": 1 } },
+  "usos": { "familiar": "Familiar", "condominio": "Condomínio / temporada", "academia": "Academia", "clube": "Clube" },
+  "faixas": [
+   { "min": 0, "max": 6, "qtd": 1, "modelo": "SEC18" },
+   { "min": 7, "max": 12, "qtd": 1, "modelo": "SEC35" },
+   { "min": 13, "max": 18, "qtd": 1, "modelo": "SEC50" },
+   { "min": 19, "max": 24, "qtd": 1, "modelo": "SEC68" },
+   { "min": 25, "max": 30, "qtd": 1, "modelo": "SEC85" },
+   { "min": 31, "max": 36, "qtd": 1, "modelo": "SEC102" },
+   { "min": 37, "max": 42, "qtd": 1, "modelo": "SEC127" },
+   { "min": 43, "max": 48, "qtd": 2, "modelo": "SEC68" },
+   { "min": 49, "max": 60, "qtd": 2, "modelo": "SEC85" },
+   { "min": 61, "max": 72, "qtd": 2, "modelo": "SEC102" },
+   { "min": 73, "max": 84, "qtd": 2, "modelo": "SEC127" },
+   { "min": 85, "max": 90, "qtd": 3, "modelo": "SEC85" },
+   { "min": 91, "max": 108, "qtd": 3, "modelo": "SEC102" },
+   { "min": 109, "max": 126, "qtd": 3, "modelo": "SEC127" }
+  ],
+  "fonte": "Planilha Dimensionamento Gerador Syllent V2 04.26 (revenda)"
+ },
  "motobombasFonte": "Syllent · folder Linha Piscina, Pré-Filtro Autoescorvante, abril/2025 (vazão em m³/h por altura manométrica total, 60 Hz); filtro de areia conforme a tabela de conjuntos do mesmo folder",
  "clima": {
   "AC": {

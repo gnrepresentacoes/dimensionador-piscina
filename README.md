@@ -1,7 +1,17 @@
-# Dimensionador de Bomba de Calor · GN Representações
+# Dimensionadores Syllent · GN Representações
 
 Programa de desktop (Windows, offline) para dimensionar bomba de calor de piscina e gerar um PDF
 de uma página para enviar ao cliente. Catálogo Syllent, lógica da planilha técnica.
+
+## Módulos
+
+A tela inicial oferece dois módulos; cliente e piscina são aproveitados entre eles.
+
+- **Bomba de calor**: carga térmica, equipamento Evolve/Evolve Pro, motobomba com pré-filtro e custo de energia.
+- **Gerador de cloro**: produção de cloro necessária e gerador EcoChlor, pela planilha Syllent
+  (base 2,6 g/m³; acréscimos aquecida +30%, aberta +30%, uso familiar 0 / condomínio +30% /
+  academia +50% / clube +100%; produção = cloro ajustado ÷ horas de filtração; tabela de faixas em
+  g/h de SEC18 a 3 × SEC127; acima de 126 g/h indica consultar). Regras em , chave .
 
 ## Como usar
 

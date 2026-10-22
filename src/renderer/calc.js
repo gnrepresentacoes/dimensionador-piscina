@@ -167,5 +167,25 @@
     };
   }
 
-  return { num: num, area: area, volumeM3: volumeM3, cargaTermica: cargaTermica, motobomba: motobomba, avaliar: avaliar, selecionar: selecionar, opcoes: opcoes, projecaoAnual: projecaoAnual, MESES: MESES };
+  /* Gerador de cloro (planilha Syllent): base por m3, acrescimos sobre a base, divisao pelas horas de filtracao e faixa em g/h. */
+  function dimensionarCloro(cfg, f) {
+    var C = cfg.cloro;
+    var volM3 = f.modoVolume === 'medidas' ? volumeM3(f.principal) + (f.temPrainha ? volumeM3(f.prainha) : 0) : num(f.litros) / 1000;
+    var base = volM3 * C.concentracaoBase;
+    var ajustes = [];
+    if (f.aquecida === 'sim') ajustes.push({ nome: 'Piscina aquecida', pct: C.fatores.aquecida, g: base * C.fatores.aquecida });
+    if (f.tipo === 'aberta') ajustes.push({ nome: 'Piscina aberta', pct: C.fatores.aberta, g: base * C.fatores.aberta });
+    var pUso = C.fatores.uso[f.uso] || 0;
+    ajustes.push({ nome: 'Uso: ' + (C.usos[f.uso] || f.uso), pct: pUso, g: base * pUso });
+    var ajustado = base + ajustes.reduce(function (s, a) { return s + a.g; }, 0);
+    var horas = num(f.horasFiltracao) > 0 ? num(f.horasFiltracao) : C.horasFiltracaoPadrao;
+    var gh = ajustado / horas;
+    var faixa = null;
+    for (var i = 0; i < C.faixas.length; i++) if (gh >= C.faixas[i].min) faixa = C.faixas[i];
+    var ultima = C.faixas[C.faixas.length - 1];
+    if (gh > ultima.max) faixa = null;
+    return { volumeM3: volM3, volumeLitros: volM3 * 1000, base: base, ajustes: ajustes, pctTotal: ajustes.reduce(function (s, a) { return s + a.pct; }, 0), ajustado: ajustado, horas: horas, gh: gh, faixa: faixa, acimaDaTabela: gh > ultima.max, maxGh: ultima.max };
+  }
+
+  return { num: num, dimensionarCloro: dimensionarCloro, area: area, volumeM3: volumeM3, cargaTermica: cargaTermica, motobomba: motobomba, avaliar: avaliar, selecionar: selecionar, opcoes: opcoes, projecaoAnual: projecaoAnual, MESES: MESES };
 });

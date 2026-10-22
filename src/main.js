@@ -108,6 +108,7 @@ function rodarTeste() {
   });
   janela.webContents.once('did-finish-load', async () => {
     try {
+      await janela.webContents.executeJavaScript(`window.__abrirModulo && window.__abrirModulo('bomba'); true`);
       const cfg = lerConfig(); cfg.pasta = path.join(TESTE, 'pdf'); salvarConfig(cfg);
       await new Promise((res) => setTimeout(res, 800));
       const resumo = await janela.webContents.executeJavaScript(`document.querySelector('.doc-main .v') ? document.querySelector('.doc-main .v').innerText + ' | ' + document.querySelectorAll('.opt').length + ' opcoes' : 'SEM DOCUMENTO'`);
@@ -118,9 +119,18 @@ function rodarTeste() {
       await new Promise((res) => setTimeout(res, 2500));
       const status = await janela.webContents.executeJavaScript(`document.getElementById('status').innerText`);
       console.log('[status] ' + status);
+      // modulo gerador de cloro
+      await janela.webContents.executeJavaScript(`window.__abrirModulo('cloro'); document.getElementById('c_litros').value = '84000'; document.querySelector('#c_seg [data-v=litros]').click(); true`);
+      await new Promise((res) => setTimeout(res, 500));
+      const cloro = await janela.webContents.executeJavaScript(`document.getElementById('c_finGer').innerText + ' | ' + document.getElementById('c_finGh').innerText`);
+      console.log('[cloro] ' + cloro);
+      const img2 = await janela.webContents.capturePage();
+      fs.writeFileSync(path.join(TESTE, 'tela-cloro.png'), img2.toPNG());
+      await janela.webContents.executeJavaScript(`document.getElementById('c_btnPdf').click(); true`);
+      await new Promise((res) => setTimeout(res, 2500));
       const pdfs = fs.existsSync(path.join(TESTE, 'pdf')) ? fs.readdirSync(path.join(TESTE, 'pdf')) : [];
       console.log('[pdf] ' + (pdfs.length ? pdfs.map((f) => f + ' (' + fs.statSync(path.join(TESTE, 'pdf', f)).size + ' bytes)').join(', ') : 'NENHUM'));
-      if (!pdfs.length) erros++;
+      if (pdfs.length < 2) erros++;
     } catch (e) { console.log('[teste] falhou: ' + e.message); erros++; }
     app.exit(erros ? 1 : 0);
   });
