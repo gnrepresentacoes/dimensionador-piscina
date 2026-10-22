@@ -163,3 +163,34 @@ table.doc-tab { width: 100%; border-collapse: collapse; margin-top: 6px; }
 .doc-tab.doc-faixas th { width: 20%; padding: 3px 6px; white-space: nowrap; font-size: 10.5px; }
 .doc-tab.doc-faixas td { width: 30%; padding: 3px 6px; white-space: nowrap; font-size: 10.5px; }
 .doc-tab.doc-faixas td.sel { color: var(--navy); background: var(--sky-soft); font-weight: 700; }
+
+/* ----- celular (até 700 px): tudo em uma coluna, campos maiores, prévia do PDF em escala ----- */
+@media (max-width: 700px) {
+  .top { height: 56px; padding: 0 12px; }
+  .top-l { min-width: 0; flex: 1; } .top-title { min-width: 0; } .top-title strong { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; } .top-title span { display: none; }
+  .top-r { display: flex; align-items: center; flex: none; gap: 6px; }
+  .logo-syllent { height: 26px; }
+  .btn-home { height: 28px; padding: 0 8px; margin-right: 0; font-size: 12px; }
+  .home { padding: 24px 14px; }
+  .home h1 { font-size: 20px; }
+  .home-card { min-height: 0; padding: 18px 16px; }
+  .form { padding: 12px 12px 18px; gap: 10px; }
+  .block { padding: 12px 12px 14px; border-radius: 10px; }
+  .g2, .g3 { grid-template-columns: 1fr; gap: 8px; }
+  input, select, .f { height: 44px; font-size: 16px; }
+  .seg button { padding: 10px 6px; font-size: 12px; }
+  .f.sm { width: 100%; }
+  .row { gap: 8px; }
+  .cards { grid-template-columns: 1fr; }
+  .card .v { font-size: 16px; }
+  .checks { gap: 8px 14px; }
+  .row-actions { flex-wrap: wrap; }
+  .row-actions .btn.primary, .actions .btn.primary { flex: 1 1 100%; }
+  .preview { padding-bottom: 8px; overflow-x: hidden; }
+  .preview-bar { padding: 10px 12px; font-size: 11px; flex-wrap: wrap; gap: 4px; }
+  .page { margin: 0 12px; padding: 20px 22px; width: 794px; max-width: none; transform-origin: top left; box-shadow: 0 4px 16px rgba(20,33,61,.15); }
+  .page-wrap { margin: 0; overflow: hidden; }
+  .actions { flex-wrap: wrap; padding: 10px 12px; gap: 6px; }
+  .actions .btn { flex: 1 1 45%; }
+  .path { flex: 1 1 100%; margin-left: 0; max-width: none; text-align: left; }
+}

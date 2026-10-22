@@ -353,3 +353,25 @@
   // Em modo de teste automatizado, abre direto a bomba de calor para o smoke test continuar valendo.
   if (window.__modoTeste) abrir('bomba');
 })();
+
+
+/* ===================== Prévia do PDF em escala no celular ===================== */
+(function () {
+  function ajustarEscalaPrevia() {
+    var movel = window.matchMedia('(max-width: 700px)').matches;
+    document.querySelectorAll('.page').forEach(function (pg) {
+      var wrap = pg.parentElement;
+      if (!movel) { pg.style.transform = ''; pg.style.width = ''; pg.style.marginBottom = ''; wrap.style.height = ''; return; }
+      var largura = wrap.clientWidth - 24;
+      if (largura < 50) return;
+      var escala = Math.min(1, largura / 794);
+      pg.style.transform = 'scale(' + escala + ')';
+      pg.style.marginBottom = (pg.offsetHeight * escala - pg.offsetHeight) + 'px';
+    });
+  }
+  window.addEventListener('resize', ajustarEscalaPrevia);
+  var obs = new MutationObserver(function () { requestAnimationFrame(ajustarEscalaPrevia); });
+  document.querySelectorAll('.page').forEach(function (pg) { obs.observe(pg, { childList: true, subtree: true }); });
+  document.querySelectorAll('.home-card, #btnHome').forEach(function (b) { b.addEventListener('click', function () { setTimeout(ajustarEscalaPrevia, 50); }); });
+  ajustarEscalaPrevia();
+})();
